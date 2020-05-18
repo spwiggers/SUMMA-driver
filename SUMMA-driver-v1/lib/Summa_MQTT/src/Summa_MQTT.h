@@ -1,4 +1,3 @@
-#include <arduino.h>
 
 void Summa_MQTT_Setup();
 void Summa_MQTT_Reconnect();

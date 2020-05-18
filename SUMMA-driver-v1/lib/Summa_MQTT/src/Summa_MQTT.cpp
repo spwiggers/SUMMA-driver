@@ -1,6 +1,4 @@
-#include <Arduino.h>
-//#include <Wire.h>
-#include <Wifi.h>
+#include <WiFi.h>
 
 #include "../../PubSubClient/src/PubSubClient.h"
 #include "../../Summa_Helper/src/Summa_Helper.h"
