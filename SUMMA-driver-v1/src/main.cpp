@@ -6,13 +6,14 @@
 
 
 
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Summa_Wifi_Setup();
   Summa_OTA_Setup();
   Summa_MQTT_Setup();
+
+
 }
 
 void loop() {
@@ -23,9 +24,14 @@ void loop() {
   Summa_HandleMQTT();
 
 
-  
+
   // put your main code here, to run repeatedly:
-  Serial.println("Hello world!");
+  //Serial.println("Hello world!");
+
+
+
+
+
   delay(1000);
 }
 

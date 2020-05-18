@@ -1,9 +1,5 @@
-#include <WiFi.h>
-
-#include "../../PubSubClient/src/PubSubClient.h"
-#include "../../Summa_Helper/src/Summa_Helper.h"
-#include "../../Summa_Wifi/src/Summa_Wifi.h"
 #include "Summa_MQTT.h"
+
 
 WiFiClient mqtt_wifi_client;
 PubSubClient mqttClient(mqtt_wifi_client);

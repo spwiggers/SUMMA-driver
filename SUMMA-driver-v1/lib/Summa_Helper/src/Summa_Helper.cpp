@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include "Summa_Helper.h"
 
 bool SWDEBUG = true;
 //#define SWDEBUGMQTT               true

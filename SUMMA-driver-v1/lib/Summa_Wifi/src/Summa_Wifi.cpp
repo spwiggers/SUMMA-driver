@@ -1,6 +1,4 @@
-#include <WiFi.h>
-#include <WiFiMulti.h>
-#include "../../Summa_Helper/src/Summa_Helper.h"
+#include "Summa_Wifi.h"
 
 WiFiMulti swWifiMulti;
 

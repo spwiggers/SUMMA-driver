@@ -1,7 +1,4 @@
-#include <ArduinoOTA.h>
-#include "../../Summa_Helper/src/Summa_Helper.h"
-#include "../../Summa_Wifi/src/Summa_Wifi.h"
-
+#include "Summa_OTA.h"
 
 void Summa_OTA_Setup(){
 
