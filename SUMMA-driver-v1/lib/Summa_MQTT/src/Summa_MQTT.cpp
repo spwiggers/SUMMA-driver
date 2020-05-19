@@ -1,11 +1,15 @@
 #include "Summa_MQTT.h"
 
+String _Version = "v1.04a(350mA)";
+String _Type = "FusionCOB";
+double _Temp = 83.24;  
+
 
 WiFiClient mqtt_wifi_client;
 PubSubClient mqttClient(mqtt_wifi_client);
 
 String Summa_MQTT_SubscribeTopic(){
-    return "utilicht/armatuur/out/"+Summa_Wifi_GetMacAddress();
+    return "utilicht/armatuur/in/"+Summa_Wifi_GetMacAddress();
 }
 
 void Summa_MQTT_Setup() {
@@ -19,6 +23,7 @@ void Summa_MQTT_Reconnect() {
 
     char mqttServer[Summa_MQTT_Server().length()+1];  Summa_MQTT_Server().toCharArray(mqttServer, Summa_MQTT_Server().length()+1);
     mqttClient.setServer(mqttServer, 17900);
+    mqttClient.setCallback(subscribeReceiveDataFromMQTT);
     String sPW= Summa_Wifi_GetMacAddress() + Summa_MQTT_PW_add();
     char mqttUser[Summa_Wifi_GetMacAddress().length()+1];  Summa_Wifi_GetMacAddress().toCharArray(mqttUser, Summa_Wifi_GetMacAddress().length()+1);
     char mqttPW[sPW.length()+1];  sPW.toCharArray(mqttPW, sPW.length()+1);
@@ -35,6 +40,8 @@ void Summa_MQTT_Reconnect() {
       String MQTTSubScribe = Summa_MQTT_SubscribeTopic();
       char Topic2Receive[MQTTSubScribe.length()+1];
       MQTTSubScribe.toCharArray(Topic2Receive, MQTTSubScribe.length()+1);
+      Serial.print("Topic to Subscribe : ");
+      Serial.println(Topic2Receive);
       mqttClient.subscribe(Topic2Receive);
     } else {
       Serial.print("failed, rc=");
@@ -53,13 +60,14 @@ void subscribeReceiveDataFromMQTT(char* topic, byte* payload, unsigned int _leng
   Summa_print(topic);
   Summa_print("MQTT Message: ");
   char cPayload[_length];
-  Summa_print(String(cPayload)); 
+  //Summa_print(String(cPayload)); 
   for(int i = 0; i < _length; i ++)
-  {      
+  { 
       cPayload[i]=char(payload[i]);    
+      Summa_print(String(cPayload[i]));     
   }
   Summa_println("");
-  //decodeJson(cPayload);
+  decodeJson(cPayload);
 }
 
 void Summa_MQTT_Publish(String input){
@@ -88,4 +96,30 @@ bool Summa_IsMQTT_connected(){
 
 void Summa_HandleMQTT(){
   mqttClient.loop();
+}
+
+void Summa_MQTT_SentMessage() {
+    String messageString = "{ \"IP\": \"";
+    messageString+= Summa_Wifi_GetIPAddress();
+    messageString+= "\", \"ticks\": ";
+    messageString+= String(millis());
+    messageString+= ", \"version\": \"";
+    messageString+= _Version;
+    messageString+= "\", \"type\": \"";
+    messageString+= _Type;
+    messageString+= "\", \"temp\": ";
+    messageString+= _Temp;
+//    messageString+= ", ";
+//    messageString+= ", \"time\": [";
+//    messageString+= SWT_hours;
+//    messageString+= ", ";
+//    messageString+= SWT_minutes;
+//    messageString+= ", ";
+//    messageString+= SWT_seconds;
+//    messageString+= getUtiTime();
+    messageString+= "], ";
+    messageString
+    += Summa_Infinion_UpdateColors();
+    messageString+= " } ";
+    Summa_MQTT_Publish(messageString); 
 }

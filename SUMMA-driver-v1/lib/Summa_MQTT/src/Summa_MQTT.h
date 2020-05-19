@@ -12,5 +12,6 @@ void subscribeReceiveDataFromMQTT(char* topic, byte* payload, unsigned int _leng
 void Summa_MQTT_Publish(String input);
 bool Summa_IsMQTT_connected();
 void Summa_HandleMQTT();
+void Summa_MQTT_SentMessage();
 
 #endif

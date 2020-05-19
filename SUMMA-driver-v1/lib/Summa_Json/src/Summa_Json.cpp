@@ -1,6 +1,5 @@
 #include "Summa_Json.h"
 
-
 void decodeJson(char * payload){
   StaticJsonDocument <300> doc;
   DeserializationError error = deserializeJson(doc, payload);
@@ -106,7 +105,7 @@ void decodeJson(char * payload){
           I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, _Dimlevel);
         }
         delay(100);
-        //SentMQTTMessage();
+        Summa_MQTT_SentMessage();
       }
       break;  
     case 'b':

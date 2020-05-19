@@ -25,9 +25,6 @@ int SWT_correctedToday = 1; // do not change this variable, one means that the t
 long previousMillis = 0;
 long interval = 100;
 
-String _Version = "v1.04a(350mA)";
-String _Type = "FusionCOB";
-double _Temp = 83.24;  
 
 void SentMQTTMessage();
 
@@ -65,30 +62,7 @@ void loop() {
 
   // put your main code here, to run repeatedly:
   //Serial.println("Hello world!");
-  delay(1000);
+  delay(100);
 }
 
-void SentMQTTMessage() {
-    String messageString = "{ \"IP\": \"";
-    messageString+= Summa_Wifi_GetIPAddress();
-    messageString+= "\", \"ticks\": ";
-    messageString+= String(millis());
-    messageString+= ", \"version\": \"";
-    messageString+= _Version;
-    messageString+= "\", \"type\": \"";
-    messageString+= _Type;
-    messageString+= "\", \"temp\": ";
-    messageString+= _Temp;
-//    messageString+= ", ";
-//    messageString+= ", \"time\": [";
-//    messageString+= SWT_hours;
-//    messageString+= ", ";
-//    messageString+= SWT_minutes;
-//    messageString+= ", ";
-//    messageString+= SWT_seconds;
-//    messageString+= getUtiTime();
-    messageString+= "], ";
-    messageString+= Summa_Infinion_UpdateColors();
-    messageString+= " } ";
-    Summa_MQTT_Publish(messageString); 
-}
+
