@@ -9,6 +9,7 @@
 
 void Summa_Wifi_Setup();
 String Summa_Wifi_GetMacAddress();
+String Summa_Wifi_GetIPAddress();
 
 //------ Helper Funcs Wifi ------
 String macToStr(const uint8_t* mac);

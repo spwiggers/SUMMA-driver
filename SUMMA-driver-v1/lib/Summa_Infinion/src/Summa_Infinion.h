@@ -9,7 +9,7 @@ void Summa_Infinion_Setup();
 void Summa_Infinion_Demo();
 void Summa_Infinion_Short_Demo();
 String Summa_Infinion_GetJSONData();
-void Summa_Infinion_UpdateColors();
+String Summa_Infinion_UpdateColors();
 
 bool Summa_Infinion_IsEnabled();
 unsigned long Summa_Infinion_GetBrightness();

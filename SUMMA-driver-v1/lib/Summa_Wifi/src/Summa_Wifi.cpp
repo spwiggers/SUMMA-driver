@@ -31,7 +31,9 @@ String Summa_Wifi_GetMacAddress(){
   Summa_println(clientMac);
   return clientMac;
 }
-
+String Summa_Wifi_GetIPAddress(){
+  return WiFi.localIP().toString();
+}
 
 
 

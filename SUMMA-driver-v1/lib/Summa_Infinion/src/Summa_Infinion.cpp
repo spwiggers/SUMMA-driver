@@ -159,10 +159,11 @@ String GetInfinionData(){
     return GetInfinionDataString;
 }
 
-void Summa_Infinion_UpdateColors() {
+String Summa_Infinion_UpdateColors() {
 //    sensors.requestTemperatures();
 //    _Temp = sensors.getTempCByIndex(0);
-//    if (_Temp < 0) { _Temp = 0; } 
+//    if (_Temp < 0) { _Temp = 0; }
+
     if (RGB_BOARD_ENABLED) {
         redint    = I2CREAD (ADDRESS, READ_INTENSITY_RED);    // request from shield red colour intensity
         greenint  = I2CREAD (ADDRESS, READ_INTENSITY_GREEN);  // request from shield green colour intensity
@@ -175,6 +176,21 @@ void Summa_Infinion_UpdateColors() {
         blueoff   = I2CREAD (ADDRESS, READ_OFFTIME_BLUE);     // Read the off-time of the blue channel
         brightness = I2CREAD (ADDRESS, READ_DIMMINGLEVEL);    // Read Dimming Level
     }
+    String messageString = "";
+    messageString+= "\"channels\": [";
+    messageString+= redint;
+    messageString+= ", ";
+    messageString+= greenint;
+    messageString+= ", ";
+    messageString+= blueint;
+    messageString+= "]";
+    messageString+= ", \"dimlevel\": ";
+    messageString+= brightness;
+    messageString+= ", \"Current\": ";
+    messageString+= redcurr;
+    messageString+= ", \"Offset\": ";
+    messageString+= redoff;
+    return messageString;
 }
 
 bool Summa_Infinion_IsEnabled(){
