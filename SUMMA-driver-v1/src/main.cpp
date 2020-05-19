@@ -29,6 +29,9 @@ String _Version = "v1.04a(350mA)";
 String _Type = "FusionCOB";
 double _Temp = 83.24;  
 
+void SentMQTTMessage();
+
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
