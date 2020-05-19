@@ -72,7 +72,7 @@ void SentMQTTMessage() {
     String messageString = "{ \"IP\": \"";
     messageString+= Summa_Wifi_GetIPAddress();
     messageString+= "\", \"ticks\": ";
-    messageString+= millis();
+    messageString+= String(millis());
     messageString+= ", \"version\": \"";
     messageString+= _Version;
     messageString+= "\", \"type\": \"";
@@ -80,12 +80,12 @@ void SentMQTTMessage() {
     messageString+= "\", \"temp\": ";
     messageString+= _Temp;
 //    messageString+= ", ";
-    messageString+= ", \"time\": [";
-    messageString+= SWT_hours;
-    messageString+= ", ";
-    messageString+= SWT_minutes;
-    messageString+= ", ";
-    messageString+= SWT_seconds;
+//    messageString+= ", \"time\": [";
+//    messageString+= SWT_hours;
+//    messageString+= ", ";
+//    messageString+= SWT_minutes;
+//    messageString+= ", ";
+//    messageString+= SWT_seconds;
 //    messageString+= getUtiTime();
     messageString+= "], ";
     messageString+= Summa_Infinion_UpdateColors();
