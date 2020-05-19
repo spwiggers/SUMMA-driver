@@ -1,5 +1,6 @@
 #include "Summa_Helper.h"
 
+
 bool SWDEBUG = true;
 //#define SWDEBUGMQTT               true
 //#define RGB_BOARD_ENABLED         true
@@ -33,7 +34,16 @@ void Summa_print(String _input) {
     }
 }
 
+void Summa_initPins() {
+  pinMode(STATUSPIN, OUTPUT);
+  digitalWrite(STATUSPIN, HIGH ); // Turn the LED off
+  pinMode(RESET_PIN, INPUT);
+  attachInterrupt(digitalPinToInterrupt(RESET_PIN), ResetToFactoryDefaults, CHANGE);
+}
 
-
+void ResetToFactoryDefaults() {
+  delay(1000);
+  ESP.restart();
+}
 
 

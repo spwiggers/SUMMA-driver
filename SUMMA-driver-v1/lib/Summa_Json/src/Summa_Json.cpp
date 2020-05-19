@@ -105,7 +105,7 @@ void decodeJson(char * payload){
           I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, _Dimlevel);
         }
         delay(100);
-        Summa_MQTT_SentMessage();
+        //Summa_MQTT_SentMessage();
       }
       break;  
     case 'b':

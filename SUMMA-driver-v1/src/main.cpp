@@ -3,7 +3,7 @@
 #include "../lib/Summa_OTA/src/Summa_OTA.h"
 #include "../lib/Summa_MQTT/src/Summa_MQTT.h"
 #include "../lib/Summa_Infinion/src/Summa_Infinion.h"
-//#include "../lib/Summa_Helper/src/Summa_Helper.h"
+#include "../lib/Summa_Helper/src/Summa_Helper.h"
 
 ///////// Time Settings
 unsigned long SWT_timeNow = 0;
@@ -25,10 +25,6 @@ int SWT_correctedToday = 1; // do not change this variable, one means that the t
 long previousMillis = 0;
 long interval = 100;
 
-
-void SentMQTTMessage();
-
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -36,6 +32,7 @@ void setup() {
   Summa_OTA_Setup();
   Summa_MQTT_Setup();
   Summa_Infinion_Setup();
+  Summa_initPins();
 }
 
 void loop() {
@@ -48,16 +45,8 @@ void loop() {
   previousMillis += 1;
   //calculate_time();
   if (previousMillis > interval){
-    Serial.print("The time is: ");
-    Serial.print(SWT_days);
-    Serial.print(":");
-    Serial.print(SWT_hours);
-    Serial.print(":");
-    Serial.print(SWT_minutes);
-    Serial.print(":");
-    Serial.println(SWT_seconds);
+    Summa_MQTT_SentMessage();
     previousMillis = 0;
-    SentMQTTMessage();
   }
 
   // put your main code here, to run repeatedly:
