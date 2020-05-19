@@ -48,6 +48,5 @@ void ResetToFactoryDefaults() {
 
 void Summa_SetStatusLed(bool _input) {
   digitalWrite(STATUSPIN, !(_input) ); 
-
 }
 

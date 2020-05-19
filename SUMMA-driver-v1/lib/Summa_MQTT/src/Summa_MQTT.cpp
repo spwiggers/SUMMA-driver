@@ -68,6 +68,7 @@ void subscribeReceiveDataFromMQTT(char* topic, byte* payload, unsigned int _leng
   }
   Summa_println("");
   decodeJson(cPayload);
+  Summa_MQTT_SentMessage();
 }
 
 void Summa_MQTT_Publish(String input){
