@@ -16,5 +16,6 @@ void Summa_println(String _input);
 void Summa_print(String _input);
 void Summa_initPins();
 void ResetToFactoryDefaults();
+void Summa_SetStatusLed(bool _input);
 
 #endif

@@ -28,11 +28,13 @@ long interval = 100;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  Summa_initPins();
+  Summa_SetStatusLed(true);
   Summa_Wifi_Setup();
   Summa_OTA_Setup();
   Summa_MQTT_Setup();
   Summa_Infinion_Setup();
-  Summa_initPins();
+  Summa_SetStatusLed(false);
 }
 
 void loop() {

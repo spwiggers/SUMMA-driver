@@ -46,4 +46,8 @@ void ResetToFactoryDefaults() {
   ESP.restart();
 }
 
+void Summa_SetStatusLed(bool _input) {
+  digitalWrite(STATUSPIN, _input ); 
+
+}
 
