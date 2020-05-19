@@ -1,26 +1,12 @@
 #include "Summa_Helper.h"
 
-
-bool SWDEBUG = true;
-//#define SWDEBUGMQTT               true
-//#define RGB_BOARD_ENABLED         true
-//#define RGB_BOARD_DEMO            false
-
-bool SummaDebug(){
-    return SWDEBUG;
-}
-
-String Summa_OTAPassword(){
-    String OTAPassword = "esp8266";     return OTAPassword; }
-
-String Summa_OTAName(){
-    String OTAName = "SUMMA-";          return OTAName; }
-
-String Summa_MQTT_PW_add(){
-    String PasswordAdd = "-Uti-SW26";   return PasswordAdd; }
-
-String Summa_MQTT_Server(){
-    String MQTTServer = "hairdresser.cloudmqtt.com";   return MQTTServer; }
+bool SummaDebug(){              return _SWDEBUG; }
+String SummaVersion(){          return _SWVERSION; }
+String SummaType(){             return _SWTYPE; }
+String Summa_OTAPassword(){     return _SWOTAPASSWORD; }
+String Summa_OTAName(){         return _SWOTANAME; }
+String Summa_MQTT_PW_add(){     return _SWMQTTPASSADD; }
+String Summa_MQTT_Server(){     return _SWMQTTSERVER; }
 
 void Summa_println(String _input) {
     if (SummaDebug()) {

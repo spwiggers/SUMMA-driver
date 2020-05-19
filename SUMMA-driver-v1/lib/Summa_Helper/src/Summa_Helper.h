@@ -7,7 +7,18 @@
 #define STATUSPIN 19
 #define RESET_PIN 23
 
+#define _SWVERSION      "v1.04a(350mA)"
+#define _SWTYPE         "FusionCOB"
+#define _SWDEBUG        true
+#define _SWOTAPASSWORD  "esp8266"
+#define _SWOTANAME      "SUMMA-"
+#define _SWMQTTPASSADD  "-Uti-SW26"
+#define _SWMQTTSERVER   "hairdresser.cloudmqtt.com"
+
+
 bool SummaDebug();
+String SummaVersion();
+String SummaType();
 String Summa_OTAPassword();
 String Summa_OTAName();
 String Summa_MQTT_PW_add();

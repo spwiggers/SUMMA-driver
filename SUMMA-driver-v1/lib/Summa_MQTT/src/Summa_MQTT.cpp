@@ -1,10 +1,5 @@
 #include "Summa_MQTT.h"
 
-String _Version = "v1.04a(350mA)";
-String _Type = "FusionCOB";
-double _Temp = 83.24;  
-
-
 WiFiClient mqtt_wifi_client;
 PubSubClient mqttClient(mqtt_wifi_client);
 
@@ -105,19 +100,19 @@ void Summa_MQTT_SentMessage() {
     messageString+= "\", \"ticks\": ";
     messageString+= String(millis());
     messageString+= ", \"version\": \"";
-    messageString+= _Version;
+    messageString+= SummaVersion();
     messageString+= "\", \"type\": \"";
-    messageString+= _Type;
+    messageString+= SummaType();
     messageString+= "\", \"temp\": ";
-    messageString+= _Temp;
-//    messageString+= ", ";
-//    messageString+= ", \"time\": [";
+    messageString+= Summa_Temp_GetC();
+    messageString+= ", ";
+    messageString+= ", \"time\": [";
 //    messageString+= SWT_hours;
 //    messageString+= ", ";
 //    messageString+= SWT_minutes;
 //    messageString+= ", ";
 //    messageString+= SWT_seconds;
-//    messageString+= getUtiTime();
+    messageString+= Summa_Time_Get();
     messageString+= "], ";
     messageString
     += Summa_Infinion_UpdateColors();

@@ -4,22 +4,7 @@
 #include "../lib/Summa_MQTT/src/Summa_MQTT.h"
 #include "../lib/Summa_Infinion/src/Summa_Infinion.h"
 #include "../lib/Summa_Helper/src/Summa_Helper.h"
-
-///////// Time Settings
-unsigned long SWT_timeNow = 0;
-unsigned long SWT_timeLast = 0;
-//Time start Settings:
-int SWT_startingHour = 15;
-// set your starting hour here, not below at int hour. This ensures accurate daily correction of time
-int SWT_seconds = 0;
-int SWT_minutes = 25;
-int SWT_hours = SWT_startingHour;
-int SWT_days = 0;
-
-//Accuracy settings
-int SWT_dailyErrorFast = 0; // set the average number of milliseconds your microcontroller's time is fast on a daily basis
-int SWT_dailyErrorBehind = 0; // set the average number of milliseconds your microcontroller's time is behind on a daily basis
-int SWT_correctedToday = 1; // do not change this variable, one means that the time has already been corrected today for the error in your boards crystal. This is true for the first day because you just set the time when you uploaded the sketch.
+#include "../lib/Summa_Time/src/Summa_Time.h"
 
 ///////// Default Interval Settings
 long previousMillis = 0;
@@ -45,7 +30,7 @@ void loop() {
   Summa_HandleMQTT();
 
   previousMillis += 1;
-  //calculate_time();
+  Summa_Time_Calculate();
   if (previousMillis > interval){
     Summa_MQTT_SentMessage();
     previousMillis = 0;
