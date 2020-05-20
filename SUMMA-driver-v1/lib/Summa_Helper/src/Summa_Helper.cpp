@@ -28,7 +28,7 @@ void Summa_initPins() {
 }
 
 void ResetToFactoryDefaults() {
-  delay(1000);
+  delay(250);
   ESP.restart();
 }
 

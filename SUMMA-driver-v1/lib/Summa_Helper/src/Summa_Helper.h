@@ -12,7 +12,7 @@
 #define _SWDEBUG        true
 #define _SWOTAPASSWORD  "esp8266"
 #define _SWOTANAME      "SUMMA-"
-#define _SWMQTTPASSADD  "-Uti-SW26"
+#define _SWMQTTPASSADD  "-UtiSW26"
 #define _SWMQTTSERVER   "hairdresser.cloudmqtt.com"
 
 
