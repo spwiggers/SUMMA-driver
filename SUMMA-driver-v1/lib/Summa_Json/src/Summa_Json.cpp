@@ -24,7 +24,7 @@ void decodeJson(char * payload){
   int _Hours = 0;
   int _Minutes = 0;
   int _Seconds = 0;
-  unsigned int _Current = 0;
+  unsigned int _Current = Summa_Infinion_GetCurrent();
   unsigned long _Dimlevel = Summa_Infinion_GetBrightness();
   String _JSON_SSID = doc["ssid"];
   String _JSON_SSIDPW = doc["ssidPW"];
@@ -105,6 +105,8 @@ void decodeJson(char * payload){
           I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, _Dimlevel);
         }
         delay(100);
+        ///theVars.Infinion_DimLevel = _Dimlevel;
+        ///theVars.Infinion_Current = _Current;
         //Summa_MQTT_SentMessage();
       }
       break;  
@@ -129,4 +131,9 @@ void decodeJson(char * payload){
       }
       break;
   }
+  Summa_Helper_SetBlue(_Blue);
+  Summa_Helper_SetRed(_Red);
+  Summa_Helper_SetGreen( _Green);
+  Summa_Helper_SetDimlevel(_Dimlevel);
+  Summa_Helper_SetCurrent(_Current);
 }

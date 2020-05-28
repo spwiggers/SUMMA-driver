@@ -1,6 +1,4 @@
 #include "Summa_Infinion.h"
-#include "../../Summa_I2C/src/Summa_I2C.h"
-
 
 bool RGB_BOARD_ENABLED = true;
 
@@ -74,6 +72,9 @@ void Summa_Infinion_Setup(){
     I2CWRITE2BYTES (ADDRESS, FADERATE, 0x0000); // Fade Rate --> 0.7s
     I2CWRITE2BYTES (ADDRESS, WALKTIME, 0x0000);   
     I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, 0x0FFF);
+    I2CWRITE6BYTES (ADDRESS, INTENSITY_RGB, Summa_Helper_GetRed(), Summa_Helper_GetGreen(), Summa_Helper_GetBlue()); // White Light
+
+    
 }
 
 void Summa_Infinion_Demo(){
@@ -199,6 +200,10 @@ bool Summa_Infinion_IsEnabled(){
 unsigned long Summa_Infinion_GetBrightness(){
     return brightness;
 }
+unsigned long Summa_Infinion_GetCurrent(){
+    return setCurrent;
+}
+
 
 void Summa_Infinion_SetCurrent(unsigned long _newCurrent){
     setCurrent = _newCurrent;

@@ -15,6 +15,7 @@ void setup() {
   Serial.begin(115200);
   Summa_initPins();
   Summa_SetStatusLed(true);
+  Summa_ReadEEProm();
   Summa_Wifi_Setup();
   Summa_OTA_Setup();
   Summa_MQTT_Setup();

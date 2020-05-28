@@ -56,9 +56,9 @@ void Summa_Time_Calculate(){
 String Summa_Time_Get() {
   String _time = "";
   _time+= String(SWT_hours);
-  _time+= ":";
+  _time+= ",";
   _time+= String(SWT_minutes);
-  _time+= ":";
+  _time+= ",";
   _time+= String(SWT_seconds);
   return _time;
 }

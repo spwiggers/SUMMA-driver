@@ -4,7 +4,7 @@
 
 #include <Arduino.h>
 #include "../../Summa_I2C/src/Summa_I2C.h"
-
+#include "../../Summa_Helper/src/Summa_Helper.h"
 
 void Summa_Infinion_Setup();
 void Summa_Infinion_Demo();
@@ -14,6 +14,7 @@ String Summa_Infinion_UpdateColors();
 
 bool Summa_Infinion_IsEnabled();
 unsigned long Summa_Infinion_GetBrightness();
+unsigned long Summa_Infinion_GetCurrent();
 void Summa_Infinion_SetCurrent(unsigned long _newCurrent);
 
 

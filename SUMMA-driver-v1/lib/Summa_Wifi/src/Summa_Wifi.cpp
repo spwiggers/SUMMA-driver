@@ -2,7 +2,7 @@
 
 WiFiMulti swWifiMulti;
 
-String summaSSID = "Utilicht-WE";
+String summaSSID = "Utilicht-SW";
 String summaSSID_PW = "Wifi@UTL!15";
 
 String macToStr(const uint8_t* mac);

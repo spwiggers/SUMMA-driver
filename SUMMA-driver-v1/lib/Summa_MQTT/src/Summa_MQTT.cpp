@@ -63,6 +63,7 @@ void subscribeReceiveDataFromMQTT(char* topic, byte* payload, unsigned int _leng
   }
   Summa_println("");
   decodeJson(cPayload);
+  Summa_SaveEEProm();
   Summa_MQTT_SentMessage();
 }
 
@@ -105,13 +106,7 @@ void Summa_MQTT_SentMessage() {
     messageString+= SummaType();
     messageString+= "\", \"temp\": ";
     messageString+= Summa_Temp_GetC();
-    messageString+= ", ";
     messageString+= ", \"time\": [";
-//    messageString+= SWT_hours;
-//    messageString+= ", ";
-//    messageString+= SWT_minutes;
-//    messageString+= ", ";
-//    messageString+= SWT_seconds;
     messageString+= Summa_Time_Get();
     messageString+= "], ";
     messageString
