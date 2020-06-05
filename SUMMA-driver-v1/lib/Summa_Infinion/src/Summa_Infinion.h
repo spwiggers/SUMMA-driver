@@ -6,6 +6,8 @@
 #include "../../Summa_I2C/src/Summa_I2C.h"
 #include "../../Summa_Helper/src/Summa_Helper.h"
 
+void Summa_Infinion_Available(bool _isAvailable);
+void Summa_Infinion_Check();
 void Summa_Infinion_Setup();
 void Summa_Infinion_Demo();
 void Summa_Infinion_Short_Demo();
@@ -18,7 +20,8 @@ unsigned long Summa_Infinion_GetCurrent();
 void Summa_Infinion_SetCurrent(unsigned long _newCurrent);
 
 
-#define ADDRESS                    0x015EUL
+//#define ADDRESS                    0x015EUL
+#define ADDRESS                    0x025EUL
 
 #define INTENSITY_RED              0x11U
 #define INTENSITY_GREEN            0x12U

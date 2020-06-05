@@ -3,14 +3,15 @@
 
 #include <Arduino.h>
 #include <EEPROM.h>
+#include <Wire.h>
 #include "../../Summa_vars/src/Summa_vars.h"
 
 ///////// Default IOPins Settings
 #define STATUSPIN 19
 #define RESET_PIN 23
 
-#define _SWVERSION      "v1.04a(350mA)"
-#define _SWTYPE         "FusionCOB"
+#define _SWVERSION      "v1.04c"
+//#define _SWTYPE         "FusionCOB"
 #define _SWDEBUG        true
 #define _SWOTAPASSWORD  "esp8266"
 #define _SWOTANAME      "SUMMA-"
@@ -23,6 +24,7 @@
 bool SummaDebug();
 String SummaVersion();
 String SummaType();
+void SummaTypeSet(String _iType);
 String Summa_OTAPassword();
 String Summa_OTAName();
 String Summa_MQTT_PW_add();
@@ -32,6 +34,8 @@ void Summa_print(String _input);
 void Summa_initPins();
 void ResetToFactoryDefaults();
 void Summa_SetStatusLed(bool _input);
+bool Summa_isI2CdeviceAtAddress(byte _address);
+
 
 template <class T> int EEPROM_writeAnything(int ee, const T& value);
 template <class T> int EEPROM_readAnything(int ee, T& value);

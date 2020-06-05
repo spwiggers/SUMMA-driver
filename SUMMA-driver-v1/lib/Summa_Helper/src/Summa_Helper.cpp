@@ -1,5 +1,7 @@
 #include "Summa_Helper.h"
 
+String _SWTYPE = "FusionCOB";
+
 SummaVars theVars;
 
 typedef struct struct_summa_settings{
@@ -22,6 +24,8 @@ theStruct_t theStruct;
 bool SummaDebug(){              return _SWDEBUG; }
 String SummaVersion(){          return _SWVERSION; }
 String SummaType(){             return _SWTYPE; }
+void SummaTypeSet(String _iType) { _SWTYPE = _iType;}
+
 String Summa_OTAPassword(){     return _SWOTAPASSWORD; }
 String Summa_OTAName(){         return _SWOTANAME; }
 String Summa_MQTT_PW_add(){     return _SWMQTTPASSADD; }
@@ -53,6 +57,31 @@ void ResetToFactoryDefaults() {
 
 void Summa_SetStatusLed(bool _input) {
   digitalWrite(STATUSPIN, !(_input) ); 
+}
+
+bool Summa_isI2CdeviceAtAddress(byte _address){
+    Summa_print("Checking for I2C Device at address :0x");
+    if (_address < 16 ) {Summa_print("0");}
+    Serial.println(_address,HEX);
+    bool isAvailable = false;
+    delay(50);
+    Wire.beginTransmission(byte(_address));
+    byte error = Wire.endTransmission(true);
+    if (error == 0) {
+        Summa_print("I2C Device found at address :0x");
+        if (_address < 16 ) {Summa_print("0");}
+        Serial.println(_address,HEX);
+        isAvailable = true;
+    } else {
+        Summa_print("I2C Device Error found at address :0x");
+        if (_address < 16 ) {Summa_print("0");}
+        Serial.println(_address,HEX);
+        Summa_print("I2C Device Error Nr :" );
+        Serial.println(error);
+
+    }
+
+    return isAvailable;
 }
 
 template <class T> int EEPROM_writeAnything(int ee, const T& value)

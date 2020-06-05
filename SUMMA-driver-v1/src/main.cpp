@@ -15,6 +15,9 @@ void setup() {
   Serial.begin(115200);
   Summa_initPins();
   Summa_SetStatusLed(true);
+  if (Summa_isI2CdeviceAtAddress(0x5E)){
+    Summa_Infinion_Available(true);
+  }
   Summa_ReadEEProm();
   Summa_Wifi_Setup();
   Summa_OTA_Setup();

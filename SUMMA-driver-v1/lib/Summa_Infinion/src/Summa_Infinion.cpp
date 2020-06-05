@@ -1,6 +1,6 @@
 #include "Summa_Infinion.h"
 
-bool RGB_BOARD_ENABLED = true;
+bool RGB_BOARD_ENABLED = false;
 
 unsigned int swSumma_Infinion_on = 0;
 
@@ -19,62 +19,77 @@ unsigned long fadetime = 0x00;
 unsigned long walk = 0x00;
 unsigned long brightness = 1;
 
-void Summa_Infinion_Setup(){
-    Serial.println("Init RGB Board");
-    Wire.begin();
-    while (swSumma_Infinion_on != 1) // Wait for shield to respond
+void Summa_Infinion_Available(bool _isAvailable){
+    RGB_BOARD_ENABLED = _isAvailable;
+}
+void Summa_Infinion_Check(){
+    int nCounter = 10;
+    while ( (swSumma_Infinion_on != 1) && (nCounter >= 1) )// Wait for shield to respond
     {
         I2CDMX (ADDRESS, DMXOFF); // disable DMX
         I2CWRITE2BYTES (ADDRESS, FADERATE, 0x0000); // Immediate fade
         I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, 0x0000); // 0% brightness level
         swSumma_Infinion_on = I2CREAD(ADDRESS, READ_DIMMINGLEVEL); // Request for brightness level
         delay(500);
-        Serial.print("Init : Reading DIMMING LEVEL : ");
+        Serial.print("Init : Reading value DIMMING LEVEL : ");
         Serial.print(swSumma_Infinion_on);
-        Serial.print("/");
+        Serial.print(" / I2CMessage : ");
         Serial.println(Summa_I2C_read_message());
         if (Summa_I2C_read_message() == 1 && swSumma_Infinion_on == 0) // If message received and brightness level = 9%
         {
-        Summa_I2C_change_message(0);
-        swSumma_Infinion_on = 1; // break out of loop
+            Summa_I2C_change_message(0);
+            swSumma_Infinion_on = 1; // break out of loop
         }
+        nCounter--;
     }
-    while (redcurr != setCurrent || greencurr != setCurrent || bluecurr != setCurrent || redoff != setOffset || greenoff != setOffset || blueoff != setOffset || brightness != 0)
-    {
-        delay(500);
-        Serial.print("Init : set Current : ");
-        Serial.println(swSumma_Infinion_on);
-        I2CWRITE6BYTES (ADDRESS, INTENSITY_RGB, 0x0000, 0x000, 0x0000); // Off Light
-        // Ensure that parameters are set up correctly. Read back and check. If wrong, write and read again.
-        redcurr     = I2CREAD (ADDRESS, READ_CURRENT_RED);    // Read the red current intensity
-        greencurr   = I2CREAD (ADDRESS, READ_CURRENT_GREEN);  // Read the green current intensity
-        bluecurr    = I2CREAD (ADDRESS, READ_CURRENT_BLUE);   // Read the blue current intensity
-        redoff      = I2CREAD (ADDRESS, READ_OFFTIME_RED);    // Read the off-time of the red channel
-        greenoff    = I2CREAD (ADDRESS, READ_OFFTIME_GREEN);  // Read the off-time of the green channel
-        blueoff     = I2CREAD (ADDRESS, READ_OFFTIME_BLUE);   // Read the off-time of the blue channel
-        brightness  = I2CREAD (ADDRESS, READ_DIMMINGLEVEL);   // Read the dimming level
-                
-        I2CWRITE2BYTES (ADDRESS, OFFTIME_RED, setOffset);     // Set off-time of red channel to 0x38
-        I2CWRITE2BYTES (ADDRESS, OFFTIME_GREEN, setOffset);   // Set off-time of green channel to 0x39
-        I2CWRITE2BYTES (ADDRESS, OFFTIME_BLUE, setOffset);    // Set off-time of blue channel to 0x38
-        I2CWRITE2BYTES (ADDRESS, CURRENT_RED, setCurrent);    // Set current intensity of red channel to 0x15 / 0x73 max 0x80
-        I2CWRITE2BYTES (ADDRESS, CURRENT_GREEN, setCurrent);  // Set current intensity of green channel to 0x15
-        I2CWRITE2BYTES (ADDRESS, CURRENT_BLUE, setCurrent);   // Set current intensity of blue channel to 0x15
-        I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, 0x0000);
-        I2CWRITE2BYTES (ADDRESS, WALKTIME, 48); // set walk-time 480ms
-
+    if (swSumma_Infinion_on) {
+        RGB_BOARD_ENABLED = true;
+        Summa_println("Infinion Enabled");
+        SummaTypeSet("FusionCOB");
+    } else {
+        Summa_println("Infinion Disabled");
+        SummaTypeSet("---------");
     }
+}
 
-    //    I2CWRITE2BYTES (ADDRESS, INTENSITY_RED, 0x0000);
-    //    I2CWRITE2BYTES (ADDRESS, INTENSITY_GREEN, 0x0000);
-    //    I2CWRITE2BYTES (ADDRESS, INTENSITY_BLUE, 0x0000);
-
-    I2CWRITE2BYTES (ADDRESS, FADERATE, 0x0000); // Fade Rate --> 0.7s
-    I2CWRITE2BYTES (ADDRESS, WALKTIME, 0x0000);   
-    I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, 0x0FFF);
-    I2CWRITE6BYTES (ADDRESS, INTENSITY_RGB, Summa_Helper_GetRed(), Summa_Helper_GetGreen(), Summa_Helper_GetBlue()); // White Light
-
+void Summa_Infinion_Setup(){
+    Serial.println("Init RGB Board");
+    Wire.begin();
     
+    Summa_Infinion_Check();
+
+    if (RGB_BOARD_ENABLED) {
+        while (redcurr != setCurrent || greencurr != setCurrent || bluecurr != setCurrent || redoff != setOffset || greenoff != setOffset || blueoff != setOffset || brightness != 0)
+        {
+            delay(500);
+            Serial.print("Init : set Current : ");
+            Serial.println(swSumma_Infinion_on);
+            I2CWRITE6BYTES (ADDRESS, INTENSITY_RGB, 0x0000, 0x000, 0x0000); // Off Light
+            // Ensure that parameters are set up correctly. Read back and check. If wrong, write and read again.
+            redcurr     = I2CREAD (ADDRESS, READ_CURRENT_RED);    // Read the red current intensity
+            greencurr   = I2CREAD (ADDRESS, READ_CURRENT_GREEN);  // Read the green current intensity
+            bluecurr    = I2CREAD (ADDRESS, READ_CURRENT_BLUE);   // Read the blue current intensity
+            redoff      = I2CREAD (ADDRESS, READ_OFFTIME_RED);    // Read the off-time of the red channel
+            greenoff    = I2CREAD (ADDRESS, READ_OFFTIME_GREEN);  // Read the off-time of the green channel
+            blueoff     = I2CREAD (ADDRESS, READ_OFFTIME_BLUE);   // Read the off-time of the blue channel
+            brightness  = I2CREAD (ADDRESS, READ_DIMMINGLEVEL);   // Read the dimming level
+                    
+            I2CWRITE2BYTES (ADDRESS, OFFTIME_RED, setOffset);     // Set off-time of red channel to 0x38
+            I2CWRITE2BYTES (ADDRESS, OFFTIME_GREEN, setOffset);   // Set off-time of green channel to 0x39
+            I2CWRITE2BYTES (ADDRESS, OFFTIME_BLUE, setOffset);    // Set off-time of blue channel to 0x38
+            I2CWRITE2BYTES (ADDRESS, CURRENT_RED, setCurrent);    // Set current intensity of red channel to 0x15 / 0x73 max 0x80
+            I2CWRITE2BYTES (ADDRESS, CURRENT_GREEN, setCurrent);  // Set current intensity of green channel to 0x15
+            I2CWRITE2BYTES (ADDRESS, CURRENT_BLUE, setCurrent);   // Set current intensity of blue channel to 0x15
+            I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, 0x0000);
+            I2CWRITE2BYTES (ADDRESS, WALKTIME, 48); // set walk-time 480ms
+
+        }
+
+        I2CWRITE2BYTES (ADDRESS, FADERATE, 0x0000); // Fade Rate --> 0.7s
+        I2CWRITE2BYTES (ADDRESS, WALKTIME, 0x0000);   
+        I2CWRITE2BYTES (ADDRESS, DIMMINGLEVEL, 0x0FFF);
+        I2CWRITE6BYTES (ADDRESS, INTENSITY_RGB, Summa_Helper_GetRed(), Summa_Helper_GetGreen(), Summa_Helper_GetBlue()); // White Light
+    }
 }
 
 void Summa_Infinion_Demo(){
